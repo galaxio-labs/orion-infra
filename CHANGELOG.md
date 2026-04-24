@@ -4,9 +4,14 @@ All notable changes to this project are documented in this file.
 
 The format is based on Keep a Changelog, and the project follows Semantic Versioning.
 
-## [Unreleased]
+## [0.6.0] - 2026-04-24
 
-- No changes yet.
+### Changed
+
+- 升级 `orion-error` 至 0.7，适配 `DomainReason` trait 与导入路径变更。
+- `ErrorOwe` → `compat_traits::ErrorOweSource`，`ToStructError` → `traits_ext::ToStructError`。
+- `owe_sys()`/`owe_res()` 替换为 `owe_sys_source()`/`owe_res_source()`。
+- `.with()` → `.with_context()`，`.want()` → `.doing()`，消除 deprecated 警告。
 
 ## [0.5.0] - 2026-03-03
 
