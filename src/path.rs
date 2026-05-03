@@ -1,27 +1,16 @@
 use derive_more::From;
-use orion_error::compat_traits::ErrorOweSource;
-use orion_error::traits_ext::ToStructError;
-use orion_error::{DomainReason, ErrorCode, ErrorWith, StructError, UvsFrom, UvsReason};
+use orion_error::OrionError;
+use orion_error::conversion::{ConvErr, ToStructError};
+use orion_error::prelude::{ErrorWith, SourceErr};
+use orion_error::{StructError, UnifiedReason};
 use std::{fs, path::Path};
-use thiserror::Error;
 
-#[derive(Clone, Debug, PartialEq, Error, From)]
+#[derive(Clone, Debug, PartialEq, From, OrionError)]
 pub enum PathReason {
-    #[error("brief {0}")]
+    #[orion_error(identity = "biz.path.brief")]
     Brief(String),
-    #[error("{0}")]
-    Uvs(UvsReason),
-}
-
-impl DomainReason for PathReason {}
-
-impl ErrorCode for PathReason {
-    fn error_code(&self) -> i32 {
-        match self {
-            PathReason::Brief(_) => 500,
-            PathReason::Uvs(r) => r.error_code(),
-        }
-    }
+    #[orion_error(transparent)]
+    Unified(UnifiedReason),
 }
 
 pub type PathResult<T> = Result<T, StructError<PathReason>>;
@@ -30,11 +19,12 @@ pub type PathError = StructError<PathReason>;
 pub fn make_clean_path(path: &Path) -> PathResult<()> {
     if path.exists() {
         std::fs::remove_dir_all(path)
-            .owe_sys_source()
+            .source_err(PathReason::system_error(), "remove_dir_all")
             .with_context(path)?;
     }
     std::fs::create_dir_all(path)
-        .owe_sys_source()
+        .source_err(UnifiedReason::system_error(), "create_dir_all")
+        .conv_err()
         .with_context(path)?;
     Ok(())
 }
@@ -42,7 +32,7 @@ pub fn make_clean_path(path: &Path) -> PathResult<()> {
 pub fn ensure_path<P: AsRef<Path>>(path: P) -> PathResult<P> {
     if !path.as_ref().exists() {
         std::fs::create_dir_all(path.as_ref())
-            .owe_sys_source()
+            .source_err(PathReason::system_error(), "create_dir_all")
             .with_context(path.as_ref())?;
     }
     Ok(path)
@@ -50,23 +40,25 @@ pub fn ensure_path<P: AsRef<Path>>(path: P) -> PathResult<P> {
 
 pub fn make_new_path(path: &Path) -> PathResult<()> {
     if path.exists() {
-        return PathReason::from_res()
+        return PathReason::from(UnifiedReason::resource_error())
             .err_result()
             .doing("path exists")
             .with_context(path);
     }
-    std::fs::create_dir_all(path).owe_sys_source()?;
+    std::fs::create_dir_all(path)
+        .source_err(UnifiedReason::system_error(), "create_dir_all")
+        .conv_err()?;
     Ok(())
 }
 
 pub fn get_sub_dirs(path: &Path) -> PathResult<Vec<std::path::PathBuf>> {
     let mut dirs = Vec::new();
     for entry in fs::read_dir(path)
-        .owe_res_source()
+        .source_err(PathReason::resource_error(), "read_dir")
         .with_context(path)
         .doing("read sub dirs")?
     {
-        let entry = entry.owe_res_source()?;
+        let entry = entry.source_err(PathReason::resource_error(), "read_dir_entry")?;
         let path = entry.path();
         if path.is_dir() {
             dirs.push(path);

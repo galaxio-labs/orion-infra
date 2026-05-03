@@ -4,6 +4,25 @@ All notable changes to this project are documented in this file.
 
 The format is based on Keep a Changelog, and the project follows Semantic Versioning.
 
+## [0.7.0] - 2026-05-03
+
+### Changed
+
+- 升级 `orion-error` 至 0.8，适配 breaking API 变更。
+- `PathReason` 改为 `#[derive(OrionError)]`，替代手写 `DomainReason` / `ErrorCode` impl。
+  - `Brief` variant：`identity = "biz.path.brief"`，`code = 500`。
+  - `Unified` variant：`#[orion_error(transparent)]` 委托给 `UnifiedReason`。
+- 移除 `compat_traits::ErrorOweSource`：`.owe_sys_source()` / `.owe_res_source()` → `.source_err(reason, detail)` + `.conv_err()`。
+- `UvsReason` → `UnifiedReason`，`UvsFrom` / `from_res()` → `PathReason::from(UnifiedReason::...)`。
+- `DomainReason` / `ErrorCode` 导入路径从 crate root 移至 `orion_error::reason`。
+- `ToStructError` 导入路径从 `traits_ext` 移至 `conversion`。
+- `ConvErr` / `SourceErr` 从 `prelude` 导入，替代原有的 compat 路径。
+- 移除 `thiserror` 在 `path.rs` 中的直接使用（由 `OrionError` derive 接管 Display / ErrorCode / ErrorIdentityProvider）。
+
+### Dependencies
+
+- `orion-error`: `0.7` → `0.8`
+
 ## [0.6.0] - 2026-04-24
 
 ### Changed
