@@ -1,5 +1,15 @@
 # orion-infra
 
+[![CI](https://github.com/galaxio-labs/orion-infra/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/galaxio-labs/orion-infra/actions)
+[![Coverage Status](https://coveralls.io/repos/github/galaxio-labs/orion-infra/badge.svg?branch=main)](https://coveralls.io/github/galaxio-labs/orion-infra?branch=main)
+[![crates.io](https://img.shields.io/crates/v/orion-infra.svg)](https://crates.io/crates/orion-infra)
+[![Downloads](https://img.shields.io/crates/d/orion-infra.svg)](https://crates.io/crates/orion-infra)
+[![docs.rs](https://docs.rs/orion-infra/badge.svg)](https://docs.rs/orion-infra)
+[![Dependencies](https://deps.rs/repo/github/galaxio-labs/orion-infra/status.svg)](https://deps.rs/repo/github/galaxio-labs/orion-infra)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust 2024 edition](https://img.shields.io/badge/Rust-2024-orange.svg)](https://www.rust-lang.org)
+[![GitHub stars](https://img.shields.io/github/stars/galaxio-labs/orion-infra.svg)](https://github.com/galaxio-labs/orion-infra/stargazers)
+
 `orion-infra` is a Rust infrastructure helper crate.
 
 It provides:

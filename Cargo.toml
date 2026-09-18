@@ -8,7 +8,7 @@ repository = "https://github.com/galaxio-labs/orion-infra"
 keywords = ["logconf" ]
 categories = ["config"]
 
-version = "0.7.0" #@gxl:set(version)
+version = "0.7.1" #@gxl:set(version)
 [dependencies]
 orion-error = "0.8"
 derive_more = { version = "2.0", features = ["full"] }
@@ -24,5 +24,5 @@ scopeguard = "1.2"
 flexi_logger = "0.31"
 #console = "~0.15"
 [dev-dependencies]
-rstest = "0.25"
+rstest = "0.27"
 tempfile = "3.4"

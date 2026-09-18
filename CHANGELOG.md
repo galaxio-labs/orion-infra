@@ -4,6 +4,27 @@ All notable changes to this project are documented in this file.
 
 The format is based on Keep a Changelog, and the project follows Semantic Versioning.
 
+## [0.7.1] - 2026-09-18
+
+### Added
+
+- 补齐测试套件：此前仓库没有任何测试。现覆盖路径工具、配置生命周期（`load`/`init`/`save`/`safe_clean`/`try_load`）、文件读写 helper、`LogConf` 与日志行格式化、`BoolFlag`；`cargo llvm-cov` 行覆盖率由 0% 提升至 91%。
+  - `auto_exit_log!` 展开为绝对 `orion_infra::` 路径，只能在 crate 外部（`tests/`）验证。
+- README 补充 crate 常用徽章。
+
+### Changed
+
+- CI 覆盖率上报由 Codecov 改为 Coveralls，不再依赖会过期的长期 token。
+- `Cargo.toml` 的 `repository` 由 `galaxy-sec` 更正为 `galaxio-labs`。
+
+### Fixed
+
+- CI 的 Security Audit job 增加 `permissions: checks: write`，否则 `rustsec/audit-check` 无法发布检查结果（`Resource not accessible by integration`）。
+
+### Dependencies
+
+- dev-dependencies: `rstest` `0.25` → `0.27`
+
 ## [0.7.0] - 2026-05-03
 
 ### Changed
