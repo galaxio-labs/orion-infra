@@ -23,3 +23,18 @@ impl BoolFlag {
         self.is_suc
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn bool_flag_starts_unsuccessful_and_can_be_marked() {
+        let mut flag = BoolFlag::default();
+
+        assert!(!flag.is_suc());
+
+        flag.mark_suc();
+        assert!(flag.is_suc());
+    }
+}
