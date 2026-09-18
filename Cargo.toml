@@ -4,7 +4,7 @@ authors = ["wukong<sec-wukong@outlook.com>"]
 edition = "2024"
 description = "orion infra "
 license = "MIT"
-repository = "https://github.com/galaxy-sec/orion-infra"
+repository = "https://github.com/galaxio-labs/orion-infra"
 keywords = ["logconf" ]
 categories = ["config"]
 
